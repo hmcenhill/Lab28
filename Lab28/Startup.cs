@@ -42,6 +42,15 @@ namespace Lab28
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddSession(options => {
+                options.Cookie.Name = ".GrandCircus.Example";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            services.AddDistributedMemoryCache();
+            services.AddHttpContextAccessor();
+            services.AddHttpClient();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -63,7 +72,7 @@ namespace Lab28
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseMvc(routes =>
